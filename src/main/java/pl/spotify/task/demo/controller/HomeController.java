@@ -32,22 +32,39 @@ public class HomeController {
     }
 
     @GetMapping("/searchTracks")
-    public String searchTracks(Model model, @RequestParam(required = false) String query, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int limit) {
+    public String searchTracks(Model model, @RequestParam(required = false) String query, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit) {
         if (query == null || query == "") {
             log.info("Search for tracks with null query input.");
             model.addAttribute("totalPages", 0);
             return "searchTracks";
         }
+        if (page < 1) {
+            page = 1;
+        }if (limit < 1 || limit > 30) {
+            limit =10;
+        }
         log.info("Search for tracks with '" + query + "' query input.");
-        SearchTracks.setParams(SpotifyAuthentication.accessToken, query, page, limit);
+        SearchTracks.setParams(SpotifyAuthentication.accessToken, query, page - 1, limit);
         Paging<Track> trackPaging = SearchTracks.searchTracks_Sync();
-        Track[] tracks = trackPaging.getItems();
-        int totalPages = trackPaging.getTotal();
+        Track[] tracks = null;
+        try {
+            tracks = trackPaging.getItems();
+        } catch (NullPointerException ex) {
+            return "redirect:/searchTracks";
+        }
+        int totalItems = trackPaging.getTotal();
+        int totalPages = 0;
+        System.out.println(totalItems);
+        if (totalItems > 9999) {
+            totalPages = 332;
+        } else {
+            totalPages = totalItems / limit;
+        }
         model.addAttribute("searchedTracks", tracks);
         model.addAttribute("query", query);
         model.addAttribute("limit", limit);
         model.addAttribute("page", page);
-        model.addAttribute("totalPages", totalPages/limit);
+        model.addAttribute("totalPages", totalPages);
         return "searchTracks";
     }
 

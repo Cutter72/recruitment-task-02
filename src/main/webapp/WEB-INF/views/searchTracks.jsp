@@ -51,37 +51,33 @@
     </c:forEach>
 </table>
 <c:choose>
-    <c:when test="${totalPages <= 10}">
+    <c:when test="${totalPages <= 10 && totalPages > 0}">
         <c:forEach begin="0" end="${totalPages}" var="pageNr">
             <a href="/searchTracks?query=${query}&limit=${limit}&page=${pageNr}">${pageNr + 1}</a>
         </c:forEach>
     </c:when>
+    <c:when test="${page <= 7 && totalPages > 10}">
+        <c:forEach begin="0" end="10" var="pageNr">
+            <a href="/searchTracks?query=${query}&limit=${limit}&page=${pageNr}">${pageNr + 1}</a>
+        </c:forEach>
+        ... <a href="/searchTracks?query=${query}&limit=${limit}&page=${totalPages}">${totalPages + 1}</a>
+    </c:when>
+    <c:when test="${totalPages > 10 && page <= totalPages - 4 && page > 7}">
+        <a href="/searchTracks?query=${query}&limit=${limit}&page=1">1</a> ...
+        <c:forEach begin="${page - 4}" end="${page + 4}" var="pageNr">
+            <a href="/searchTracks?query=${query}&limit=${limit}&page=${pageNr}">${pageNr + 1}</a>
+        </c:forEach>
+        ... <a href="/searchTracks?query=${query}&limit=${limit}&page=${totalPages}">${totalPages + 1}</a>
+    </c:when>
+    <c:when test="${totalPages > 10 && page > totalPages - 4}">
+        <a href="/searchTracks?query=${query}&limit=${limit}&page=1">1</a> ...
+        <c:forEach begin="${page - 5}" end="${totalPages}" var="pageNr">
+            <a href="/searchTracks?query=${query}&limit=${limit}&page=${pageNr}">${pageNr + 1}</a>
+        </c:forEach>
+    </c:when>
+
     <c:otherwise>
-        <c:choose>
-            <c:when test="${page < 9}">
-                <c:forEach begin="0" end="10" var="pageNr">
-                    <a href="/searchTracks?query=${query}&limit=${limit}&page=${pageNr}">${pageNr + 1}</a>
-                </c:forEach>
-                ... <a href="/searchTracks?query=${query}&limit=${limit}&page=${totalPages}">${totalPages}</a>
-            </c:when>
-            <c:otherwise>
-                <c:choose>
-                    <c:when test="${page < totalPages - 4}">
-                        <a href="/searchTracks?query=${query}&limit=${limit}&page=0">1</a> ...
-                        <c:forEach begin="${totalPages - 5}" end="${totalPages - 1}" var="pageNr">
-                            <a href="/searchTracks?query=${query}&limit=${limit}&page=${pageNr}">${pageNr + 1}</a>
-                        </c:forEach>
-                    </c:when>
-                    <c:otherwise>
-                        <a href="/searchTracks?query=${query}&limit=${limit}&page=0">1</a> ...
-                        <c:forEach begin="${page - 3}" end="${page + 3}" var="pageNr">
-                            <a href="/searchTracks?query=${query}&limit=${limit}&page=${pageNr}">${pageNr + 1}</a>
-                        </c:forEach>
-                        ... <a href="/searchTracks?query=${query}&limit=${limit}&page=${totalPages}">${totalPages}</a>
-                    </c:otherwise>
-                </c:choose>
-            </c:otherwise>
-        </c:choose>
+
     </c:otherwise>
 </c:choose>
 </body>
