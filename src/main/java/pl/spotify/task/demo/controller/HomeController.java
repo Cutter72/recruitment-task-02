@@ -46,7 +46,8 @@ public class HomeController {
         log.info("Search for tracks with '" + query + "' query input.");
         SearchTracks.setParams(SpotifyAuthentication.accessToken, query, page - 1, limit);
         Paging<Track> trackPaging = SearchTracks.searchTracks_Sync();
-        if (trackPaging.getTotal() < 1) {
+        int totalItems = trackPaging.getTotal();
+        if (totalItems < 1) {
             model.addAttribute("nothingFound", "Nothing found.");
             return "searchArtists";
         }
@@ -56,13 +57,7 @@ public class HomeController {
         } catch (NullPointerException ex) {
             return "redirect:/searchTracks";
         }
-        int totalItems = trackPaging.getTotal();
-        int totalPages = 0;
-        if (totalItems > 10000) {
-            totalPages = 10000/limit;
-        } else {
-            totalPages = totalItems / limit;
-        }
+        int totalPages = getTotalPages(limit, totalItems);
         if (page > totalPages && totalPages != 0) {
             return "redirect:/searchTracks";
         }
@@ -89,7 +84,8 @@ public class HomeController {
         log.info("Search for artists with '" + query + "' query input.");
         SearchArtists.setParams(SpotifyAuthentication.accessToken, query, page - 1, limit);
         Paging<Artist> trackPaging = SearchArtists.searchArtists_Sync();
-        if (trackPaging.getTotal() < 1) {
+        int totalItems = trackPaging.getTotal();
+        if (totalItems < 1) {
             model.addAttribute("nothingFound", "Nothing found.");
             return "searchArtists";
         }
@@ -99,13 +95,7 @@ public class HomeController {
         } catch (NullPointerException ex) {
             return "searchArtists";
         }
-        int totalItems = trackPaging.getTotal();
-        int totalPages = 0;
-        if (totalItems > 10000) {
-            totalPages = 10000/limit;
-        } else {
-            totalPages = totalItems / limit;
-        }
+        int totalPages = getTotalPages(limit, totalItems);
         if (page > totalPages && totalPages != 0) {
             return "redirect:/searchArtists";
         }
@@ -115,5 +105,19 @@ public class HomeController {
         model.addAttribute("page", page);
         model.addAttribute("totalPages", totalPages);
         return "searchArtists";
+    }
+
+    private int getTotalPages(int limit, int totalItems) {
+        int totalPages;
+        if (totalItems > 10000) {
+            totalPages = 10000/limit;
+        } else {
+            if (totalItems % limit != 0) {
+                totalPages = totalItems/limit +1;
+            }else {
+                totalPages = totalItems/limit;
+            }
+        }
+        return totalPages;
     }
 }

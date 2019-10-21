@@ -31,31 +31,35 @@
         </tr>
     </c:forEach>
 </table>
-<h3>${nothingFound}</h3>
+<h3 style="color: darkred">${nothingFound}</h3>
 <span>Page: </span>
 <c:choose>
     <c:when test="${totalPages <= 10 && totalPages > 0}">
         <c:forEach begin="1" end="${totalPages}" var="pageNr">
-            <a href="/searchArtists?query=${query}&limit=${limit}&page=${pageNr}"><c:choose><c:when test="${pageNr == page}"><b>(${pageNr})</b></c:when><c:otherwise>${pageNr}</c:otherwise></c:choose></a>
+            <a href="/searchArtists?query=${query}&limit=${limit}&page=${pageNr}"><c:choose><c:when
+                    test="${pageNr == page}"><b>(${pageNr})</b></c:when><c:otherwise>${pageNr}</c:otherwise></c:choose></a>
         </c:forEach>
     </c:when>
     <c:when test="${page <= 6 && totalPages > 10}">
         <c:forEach begin="1" end="10" var="pageNr">
-            <a href="/searchArtists?query=${query}&limit=${limit}&page=${pageNr}"><c:choose><c:when test="${pageNr == page}"><b>(${pageNr})</b></c:when><c:otherwise>${pageNr}</c:otherwise></c:choose></a>
+            <a href="/searchArtists?query=${query}&limit=${limit}&page=${pageNr}"><c:choose><c:when
+                    test="${pageNr == page}"><b>(${pageNr})</b></c:when><c:otherwise>${pageNr}</c:otherwise></c:choose></a>
         </c:forEach>
         ... <a href="/searchArtists?query=${query}&limit=${limit}&page=${totalPages}">${totalPages}</a>
     </c:when>
     <c:when test="${totalPages > 10 && page <= totalPages - 6 && page > 6}">
         <a href="/searchArtists?query=${query}&limit=${limit}&page=1">1</a> ...
         <c:forEach begin="${page - 4}" end="${page + 4}" var="pageNr">
-            <a href="/searchArtists?query=${query}&limit=${limit}&page=${pageNr}"><c:choose><c:when test="${pageNr == page}"><b>(${pageNr})</b></c:when><c:otherwise>${pageNr}</c:otherwise></c:choose></a>
+            <a href="/searchArtists?query=${query}&limit=${limit}&page=${pageNr}"><c:choose><c:when
+                    test="${pageNr == page}"><b>(${pageNr})</b></c:when><c:otherwise>${pageNr}</c:otherwise></c:choose></a>
         </c:forEach>
         ... <a href="/searchArtists?query=${query}&limit=${limit}&page=${totalPages}">${totalPages}</a>
     </c:when>
     <c:when test="${totalPages > 10 && page > totalPages - 6}">
         <a href="/searchArtists?query=${query}&limit=${limit}&page=1">1</a> ...
         <c:forEach begin="${page - 5}" end="${totalPages}" var="pageNr">
-            <a href="/searchArtists?query=${query}&limit=${limit}&page=${pageNr}"><c:choose><c:when test="${pageNr == page}"><b>(${pageNr})</b></c:when><c:otherwise>${pageNr}</c:otherwise></c:choose></a>
+            <a href="/searchArtists?query=${query}&limit=${limit}&page=${pageNr}"><c:choose><c:when
+                    test="${pageNr == page}"><b>(${pageNr})</b></c:when><c:otherwise>${pageNr}</c:otherwise></c:choose></a>
         </c:forEach>
     </c:when>
 </c:choose>
