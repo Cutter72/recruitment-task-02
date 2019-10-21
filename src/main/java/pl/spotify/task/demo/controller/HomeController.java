@@ -65,6 +65,7 @@ public class HomeController {
         model.addAttribute("limit", limit);
         model.addAttribute("page", page);
         model.addAttribute("totalPages", totalPages);
+        log.info("Enter tracks result page: " + page);
         return "searchTracks";
     }
 
@@ -106,6 +107,7 @@ public class HomeController {
         model.addAttribute("limit", limit);
         model.addAttribute("page", page);
         model.addAttribute("totalPages", totalPages);
+        log.info("Enter artists result page: " + page);
         return "searchArtists";
     }
 
