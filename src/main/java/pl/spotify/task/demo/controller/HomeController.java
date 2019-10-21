@@ -46,7 +46,7 @@ public class HomeController {
         log.info("Search for tracks with '" + query + "' query input.");
         SearchTracks.setParams(SpotifyAuthentication.accessToken, query, page - 1, limit);
         Paging<Track> trackPaging = SearchTracks.searchTracks_Sync();
-        Track[] tracks = null;
+        Track[] tracks;
         try {
             tracks = trackPaging.getItems();
         } catch (NullPointerException ex) {
@@ -54,9 +54,8 @@ public class HomeController {
         }
         int totalItems = trackPaging.getTotal();
         int totalPages = 0;
-        System.out.println(totalItems);
-        if (totalItems > 9999) {
-            totalPages = 332;
+        if (totalItems > 10000) {
+            totalPages = 10000/limit;
         } else {
             totalPages = totalItems / limit;
         }
