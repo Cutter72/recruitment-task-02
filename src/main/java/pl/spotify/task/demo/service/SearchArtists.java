@@ -12,12 +12,10 @@ public class SearchArtists {
     private static SpotifyApi spotifyApi = null;
     private static SearchArtistsRequest searchArtistsRequest = null;
 
-    public static Artist[] searchArtists_Sync() {
+    public static Paging<Artist> searchArtists_Sync() {
         try {
             final Paging<Artist> artistPaging = searchArtistsRequest.execute();
-            System.out.println("getNext: " + artistPaging.getNext());
-            System.out.println("Total: " + artistPaging.getTotal());
-            return artistPaging.getItems();
+            return artistPaging;
         } catch (IOException | SpotifyWebApiException e) {
             System.out.println("Error: " + e.getMessage());
             return null;

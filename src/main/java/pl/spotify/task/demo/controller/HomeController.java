@@ -59,7 +59,7 @@ public class HomeController {
         } else {
             totalPages = totalItems / limit;
         }
-        if (page > totalPages) {
+        if (page > totalPages && totalPages != 0) {
             return "redirect:/searchTracks";
         }
         model.addAttribute("searchedTracks", tracks);
@@ -71,16 +71,42 @@ public class HomeController {
     }
 
     @GetMapping("/searchArtists")
-    public String searchArtists(Model model, @RequestParam(required = false) String query, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int limit) {
-        if (query == null) {
+    public String searchArtists(Model model, @RequestParam(required = false) String query, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit) {
+        if (query == null || query == "") {
             log.info("Search for artists with null query input.");
+            model.addAttribute("totalPages", 0);
             return "searchArtists";
         }
+        if (page < 1) {
+            page = 1;
+        }if (limit < 1 || limit > 30) {
+            limit =10;
+        }
         log.info("Search for artists with '" + query + "' query input.");
-        SearchArtists.setParams(SpotifyAuthentication.accessToken, query, page, limit);
-        Artist[] artists = SearchArtists.searchArtists_Sync();
-        model.addAttribute("searchedArtists", artists);
+        SearchArtists.setParams(SpotifyAuthentication.accessToken, query, page - 1, limit);
+        Paging<Artist> trackPaging = SearchArtists.searchArtists_Sync();
+        Artist[] tracks;
+        try {
+            tracks = trackPaging.getItems();
+        } catch (NullPointerException ex) {
+            model.addAttribute("nothingFound", "Nothing found.");
+            return "searchArtists";
+        }
+        int totalItems = trackPaging.getTotal();
+        int totalPages = 0;
+        if (totalItems > 10000) {
+            totalPages = 10000/limit;
+        } else {
+            totalPages = totalItems / limit;
+        }
+        if (page > totalPages && totalPages != 0) {
+            return "redirect:/searchArtists";
+        }
+        model.addAttribute("searchedArtists", tracks);
         model.addAttribute("query", query);
+        model.addAttribute("limit", limit);
+        model.addAttribute("page", page);
+        model.addAttribute("totalPages", totalPages);
         return "searchArtists";
     }
 }

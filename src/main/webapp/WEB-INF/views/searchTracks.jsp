@@ -76,10 +76,6 @@
             <a href="/searchTracks?query=${query}&limit=${limit}&page=${pageNr}"><c:choose><c:when test="${pageNr == page}"><b>(${pageNr})</b></c:when><c:otherwise>${pageNr}</c:otherwise></c:choose></a>
         </c:forEach>
     </c:when>
-
-    <c:otherwise>
-
-    </c:otherwise>
 </c:choose>
 </body>
 </html>

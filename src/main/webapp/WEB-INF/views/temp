@@ -1,0 +1,35 @@
+if (query == null || query == "") {
+            log.info("Search for tracks with null query input.");
+            model.addAttribute("totalPages", 0);
+            return "searchArtists";
+        }
+        if (page < 1) {
+            page = 1;
+        }if (limit < 1 || limit > 30) {
+            limit =10;
+        }
+        log.info("Search for tracks with '" + query + "' query input.");
+        SearchArtists.setParams(SpotifyAuthentication.accessToken, query, page - 1, limit);
+        Paging<Artist> trackPaging = SearchArtists.searchArtists_Sync();
+        Artist[] tracks;
+        try {
+            tracks = trackPaging.getItems();
+        } catch (NullPointerException ex) {
+            return "redirect:/searchArtists";
+        }
+        int totalItems = trackPaging.getTotal();
+        int totalPages = 0;
+        if (totalItems > 10000) {
+            totalPages = 10000/limit;
+        } else {
+            totalPages = totalItems / limit;
+        }
+        if (page > totalPages) {
+            return "redirect:/searchArtists";
+        }
+        model.addAttribute("searchedArtists", tracks);
+        model.addAttribute("query", query);
+        model.addAttribute("limit", limit);
+        model.addAttribute("page", page);
+        model.addAttribute("totalPages", totalPages);
+        return "searchArtists";
