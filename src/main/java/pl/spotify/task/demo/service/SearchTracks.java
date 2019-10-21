@@ -5,19 +5,20 @@ import com.wrapper.spotify.exceptions.SpotifyWebApiException;
 import com.wrapper.spotify.model_objects.specification.Paging;
 import com.wrapper.spotify.model_objects.specification.Track;
 import com.wrapper.spotify.requests.data.search.simplified.SearchTracksRequest;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
 public class SearchTracks {
     private static SpotifyApi spotifyApi = null;
     private static SearchTracksRequest searchTracksRequest = null;
+    final static Logger log = Logger.getLogger(SearchTracks.class);
 
     public static Paging<Track> searchTracks_Sync() {
         try {
-            final Paging<Track> trackPaging = searchTracksRequest.execute();
-            return trackPaging;
+            return searchTracksRequest.execute();
         } catch (IOException | SpotifyWebApiException e) {
-            System.out.println("Error: " + e.getMessage());
+            log.error("NullPointerException while getting Paging<Track>. Probably invalid page number and exceeded Spotify API limits.");
             return null;
         }
 
@@ -28,7 +29,6 @@ public class SearchTracks {
                 .setAccessToken(accessToken)
                 .build();
         searchTracksRequest = spotifyApi.searchTracks(query)
-//          .market(CountryCode.SE)
                 .limit(limit)
                 .offset(page * limit)
                 .build();

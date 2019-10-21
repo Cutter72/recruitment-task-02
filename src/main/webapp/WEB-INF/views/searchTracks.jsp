@@ -8,6 +8,7 @@
     <title>Spotify track search</title>
 </head>
 <body>
+<a href="/">back</a>
 <h1>Search for track:</h1>
 <form action="/searchTracks"><label>Search for: </label>
     <input type="text" name="query" value="${query}"/>
