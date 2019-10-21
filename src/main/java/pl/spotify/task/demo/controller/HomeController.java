@@ -1,6 +1,7 @@
 package pl.spotify.task.demo.controller;
 
 import com.wrapper.spotify.model_objects.specification.Artist;
+import com.wrapper.spotify.model_objects.specification.Paging;
 import com.wrapper.spotify.model_objects.specification.Track;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -31,27 +32,33 @@ public class HomeController {
     }
 
     @GetMapping("/searchTracks")
-    public String searchTracks(Model model, @RequestParam(required = false) String query) {
-        if (query == null) {
+    public String searchTracks(Model model, @RequestParam(required = false) String query, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int limit) {
+        if (query == null || query == "") {
             log.info("Search for tracks with null query input.");
+            model.addAttribute("totalPages", 0);
             return "searchTracks";
         }
-        log.info("Search for tracks with '" + query + "' qury input.");
-        SearchTracks.setParams(SpotifyAuthentication.accessToken, query, 0, 30);
-        Track[] tracks = SearchTracks.searchTracks_Sync();
+        log.info("Search for tracks with '" + query + "' query input.");
+        SearchTracks.setParams(SpotifyAuthentication.accessToken, query, page, limit);
+        Paging<Track> trackPaging = SearchTracks.searchTracks_Sync();
+        Track[] tracks = trackPaging.getItems();
+        int totalPages = trackPaging.getTotal();
         model.addAttribute("searchedTracks", tracks);
         model.addAttribute("query", query);
+        model.addAttribute("limit", limit);
+        model.addAttribute("page", page);
+        model.addAttribute("totalPages", totalPages/limit);
         return "searchTracks";
     }
 
     @GetMapping("/searchArtists")
-    public String searchArtists(Model model, @RequestParam(required = false) String query) {
+    public String searchArtists(Model model, @RequestParam(required = false) String query, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int limit) {
         if (query == null) {
             log.info("Search for artists with null query input.");
             return "searchArtists";
         }
-        log.info("Search for artists with '" + query + "' qury input.");
-        SearchArtists.setParams(SpotifyAuthentication.accessToken, query, 0, 30);
+        log.info("Search for artists with '" + query + "' query input.");
+        SearchArtists.setParams(SpotifyAuthentication.accessToken, query, page, limit);
         Artist[] artists = SearchArtists.searchArtists_Sync();
         model.addAttribute("searchedArtists", artists);
         model.addAttribute("query", query);
