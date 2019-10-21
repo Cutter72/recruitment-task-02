@@ -46,6 +46,10 @@ public class HomeController {
         log.info("Search for tracks with '" + query + "' query input.");
         SearchTracks.setParams(SpotifyAuthentication.accessToken, query, page - 1, limit);
         Paging<Track> trackPaging = SearchTracks.searchTracks_Sync();
+        if (trackPaging.getTotal() < 1) {
+            model.addAttribute("nothingFound", "Nothing found.");
+            return "searchArtists";
+        }
         Track[] tracks;
         try {
             tracks = trackPaging.getItems();
@@ -85,11 +89,14 @@ public class HomeController {
         log.info("Search for artists with '" + query + "' query input.");
         SearchArtists.setParams(SpotifyAuthentication.accessToken, query, page - 1, limit);
         Paging<Artist> trackPaging = SearchArtists.searchArtists_Sync();
+        if (trackPaging.getTotal() < 1) {
+            model.addAttribute("nothingFound", "Nothing found.");
+            return "searchArtists";
+        }
         Artist[] tracks;
         try {
             tracks = trackPaging.getItems();
         } catch (NullPointerException ex) {
-            model.addAttribute("nothingFound", "Nothing found.");
             return "searchArtists";
         }
         int totalItems = trackPaging.getTotal();

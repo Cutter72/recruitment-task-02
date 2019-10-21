@@ -50,6 +50,7 @@
         </tr>
     </c:forEach>
 </table>
+<h3>${nothingFound}</h3>
 <span>Page: </span>
 <c:choose>
     <c:when test="${totalPages <= 10 && totalPages > 0}">
