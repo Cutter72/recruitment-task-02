@@ -59,6 +59,9 @@ public class HomeController {
         } else {
             totalPages = totalItems / limit;
         }
+        if (page > totalPages) {
+            return "redirect:/searchTracks";
+        }
         model.addAttribute("searchedTracks", tracks);
         model.addAttribute("query", query);
         model.addAttribute("limit", limit);
