@@ -47,7 +47,7 @@
                     Preview not supported.
                 </c:otherwise>
             </c:choose></td>
-            <td>ADD/REMOVE</td>
+            <td><a href="/getTrack/${track.id}" target="_blank">Show track</a></td>
         </tr>
     </c:forEach>
 </table>

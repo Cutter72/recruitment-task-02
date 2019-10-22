@@ -7,8 +7,10 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import pl.spotify.task.demo.Model.Database;
 import pl.spotify.task.demo.service.SearchArtists;
 import pl.spotify.task.demo.service.SearchTracks;
 import pl.spotify.task.demo.service.SpotifyAuthentication;
@@ -16,8 +18,9 @@ import pl.spotify.task.demo.service.SpotifyAuthentication;
 @Controller
 public class HomeController {
     final static Logger log = Logger.getLogger(HomeController.class);
-
-    public HomeController() {
+    private Database database;
+    public HomeController(Database database) {
+        this.database = database;
     }
 
     @GetMapping("")
@@ -25,6 +28,20 @@ public class HomeController {
     public String home() {
         log.info("Homepage entered");
         return "<a href='/searchTracks'>searchTracks</a><br><br><a href='/searchArtists'>searchArtists</a>";
+    }
+
+    @GetMapping("/db")
+    public String database() {
+        log.info("database entered");
+        database.create();
+        return "";
+    }
+
+    @GetMapping("/getTrack/{trackId}")
+    @ResponseBody
+    public String getTrack(@PathVariable String trackId) {
+        Track track = SearchTracks.getTrack_Sync(trackId);
+        return "Track with id = " + trackId + " loaded. Track title: " + track.getName()+", Artist: "+track.getArtists()[0].getName();
     }
 
     @GetMapping("/searchTracks")

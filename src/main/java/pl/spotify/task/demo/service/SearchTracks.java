@@ -5,6 +5,7 @@ import com.wrapper.spotify.exceptions.SpotifyWebApiException;
 import com.wrapper.spotify.model_objects.specification.Paging;
 import com.wrapper.spotify.model_objects.specification.Track;
 import com.wrapper.spotify.requests.data.search.simplified.SearchTracksRequest;
+import com.wrapper.spotify.requests.data.tracks.GetTrackRequest;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -32,5 +33,18 @@ public class SearchTracks {
                 .limit(limit)
                 .offset(page * limit)
                 .build();
+    }
+
+    public static Track getTrack_Sync(String id) {
+        GetTrackRequest getTrackRequest = spotifyApi.getTrack(id)
+                .build();
+        try {
+            Track track = getTrackRequest.execute();
+            log.info("Track with id = " + id + " loaded. Track title: " + track.getName()+", Artist: "+track.getArtists()[0].getName());
+            return track;
+        } catch (IOException | SpotifyWebApiException e) {
+            log.error("NullPointerException while getting single Track with id = " + id);
+            return null;
+        }
     }
 }
