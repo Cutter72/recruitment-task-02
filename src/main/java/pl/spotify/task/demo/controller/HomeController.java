@@ -27,7 +27,7 @@ public class HomeController {
     @GetMapping("")
     @ResponseBody
     public String home() {
-        log.info("Homepage entered");
+        log.info("/ root page entered");
         return "<a href='/searchTracks'>searchTracks</a><br><br>" +
                 "<a href='/searchArtists'>searchArtists</a><br><br>" +
                 "<a href='/myFavouriteTracks'>myFavouriteTracks</a><br><br>" +
@@ -49,6 +49,7 @@ public class HomeController {
 
     @GetMapping("/myFavouriteTracks")
     public String myFavouriteTracks(Model model) {
+        log.info("/myFavouriteTracks page entered");
         model.addAttribute("tracks", database.getAllTracks());
         return "myFavouriteTracks";
     }
@@ -68,6 +69,7 @@ public class HomeController {
 
     @GetMapping("/myFavouriteArtists")
     public String myFavouriteArtists(Model model) {
+        log.info("/myFavouriteArtists page entered");
         model.addAttribute("artists", database.getAllArtists());
         return "myFavouriteArtists";
     }
@@ -75,7 +77,7 @@ public class HomeController {
     @GetMapping("/searchTracks")
     public String searchTracks(Model model, @RequestParam(required = false) String query, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit) {
         if (query == null || query == "") {
-            log.info("Search for tracks page entered.");
+            log.info("/searchTracks page entered.");
             model.addAttribute("totalPages", 0);
             return "searchTracks";
         }
@@ -117,7 +119,7 @@ public class HomeController {
     @GetMapping("/searchArtists")
     public String searchArtists(Model model, @RequestParam(required = false) String query, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit) {
         if (query == null || query == "") {
-            log.info("Search for artists page entered.");
+            log.info("/searchArtists page entered.");
             model.addAttribute("totalPages", 0);
             return "searchArtists";
         }
