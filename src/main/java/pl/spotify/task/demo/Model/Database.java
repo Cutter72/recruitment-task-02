@@ -15,6 +15,12 @@ import java.util.List;
 @Component
 public class Database {
     final static Logger log = Logger.getLogger(Database.class);
+
+    public Database() {
+
+
+    }
+
     Nitrite db = Nitrite.builder()
             .compressed()
             .filePath(Paths.get("src/main/resources/database.db").toAbsolutePath().toString())
