@@ -19,6 +19,7 @@ import pl.spotify.task.demo.service.SpotifyAuthentication;
 public class HomeController {
     final static Logger log = Logger.getLogger(HomeController.class);
     private Database database;
+
     public HomeController(Database database) {
         this.database = database;
     }
@@ -33,7 +34,7 @@ public class HomeController {
     @GetMapping("/db")
     public String database() {
         log.info("database entered");
-        database.create();
+
         return "";
     }
 
@@ -41,7 +42,12 @@ public class HomeController {
     @ResponseBody
     public String getTrack(@PathVariable String trackId) {
         Track track = SearchTracks.getTrack_Sync(trackId);
-        return "Track with id = " + trackId + " loaded. Track title: " + track.getName()+", Artist: "+track.getArtists()[0].getName();
+        database.addTrack(track);
+        for (Track trk : database.getAllTracks()) {
+            log.info("Title: " + trk.getName());
+            log.info("Artist: " + trk.getArtists()[0].getName());
+        }
+        return "success";
     }
 
     @GetMapping("/searchTracks")
