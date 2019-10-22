@@ -1,10 +1,9 @@
 package pl.spotify.task.demo.Model;
 
+import com.wrapper.spotify.model_objects.specification.Artist;
 import com.wrapper.spotify.model_objects.specification.Track;
 import org.apache.log4j.Logger;
 import org.dizitart.no2.Nitrite;
-import org.dizitart.no2.filters.Filters;
-import org.dizitart.no2.objects.ObjectFilter;
 import org.dizitart.no2.objects.ObjectRepository;
 import org.dizitart.no2.objects.filters.ObjectFilters;
 import org.springframework.stereotype.Component;
@@ -20,7 +19,8 @@ public class Database {
             .compressed()
             .filePath(Paths.get("src/main/resources/database.db").toAbsolutePath().toString())
             .openOrCreate("user", "password");
-    ObjectRepository<TrackDto> trackObjectRepository= db.getRepository(TrackDto.class);
+    private ObjectRepository<TrackDto> trackObjectRepository= db.getRepository(TrackDto.class);
+    private ObjectRepository<ArtistDto> artistObjectRepository= db.getRepository(ArtistDto.class);
 
 
     public void addTrack(Track track) {
@@ -37,7 +37,25 @@ public class Database {
     public List<Track> getAllTracks() {
         List<Track> tracks = new ArrayList<>();
         trackObjectRepository.find().project(TrackDto.class).toList().forEach(item -> tracks.add(item.getTrack()));
-        log.info("All track loaded from database");
+        log.info("All tracks loaded from database");
     return tracks;
+    }
+
+    public void addArtist(Artist artist) {
+        ArtistDto artistDto = new ArtistDto(artist.getId(), artist);
+        artistObjectRepository.insert(artistDto);
+        log.info("Artist added to database");
+    }
+
+    public void removeArtist(String id) {
+        artistObjectRepository.remove(ObjectFilters.eq("id", id));
+        log.info("Artist removed from database");
+    }
+
+    public List<Artist> getAllArtists() {
+        List<Artist> artists = new ArrayList<>();
+        artistObjectRepository.find().project(ArtistDto.class).toList().forEach(item -> artists.add(item.getArtist()));
+        log.info("All artists loaded from database");
+        return artists;
     }
 }

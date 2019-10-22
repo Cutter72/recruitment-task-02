@@ -5,6 +5,8 @@ target/
 !**/src/test/**
 ### Database file ###
 *.db
+### Temp file ###
+*.temp
 
 ### STS ###
 .apt_generated

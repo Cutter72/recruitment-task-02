@@ -53,6 +53,25 @@ public class HomeController {
         return "myFavouriteTracks";
     }
 
+    @GetMapping("/addArtistToFavourites/{artistId}")
+    public String addArtistToFavourites(@PathVariable String artistId) {
+        Artist artist = SearchArtists.getArtist_Sync(artistId);
+        database.addArtist(artist);
+        return "redirect:/myFavouriteArtists";
+    }
+
+    @GetMapping("/removeArtistFromFavourites/{artistId}")
+    public String removeArtistToFavourites(@PathVariable String artistId) {
+        database.removeArtist(artistId);
+        return "redirect:/myFavouriteArtists";
+    }
+
+    @GetMapping("/myFavouriteArtists")
+    public String myFavouriteArtists(Model model) {
+        model.addAttribute("artists", database.getAllArtists());
+        return "myFavouriteArtists";
+    }
+
     @GetMapping("/searchTracks")
     public String searchTracks(Model model, @RequestParam(required = false) String query, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit) {
         if (query == null || query == "") {
