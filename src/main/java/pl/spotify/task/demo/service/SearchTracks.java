@@ -40,7 +40,7 @@ public class SearchTracks {
                 .build();
         try {
             Track track = getTrackRequest.execute();
-            log.info("Track with id = " + id + " loaded from Spotify API.");
+            log.info("Track with id = '" + id + "' loaded from Spotify API.");
             return track;
         } catch (IOException | SpotifyWebApiException e) {
             log.error("NullPointerException while getting single Track with id = " + id);

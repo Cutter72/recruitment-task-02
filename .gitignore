@@ -7,6 +7,8 @@ target/
 *.db
 ### Temp file ###
 *.temp
+### Logs file ###
+*.log
 
 ### STS ###
 .apt_generated

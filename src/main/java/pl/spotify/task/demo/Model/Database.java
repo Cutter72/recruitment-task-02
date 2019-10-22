@@ -43,7 +43,7 @@ public class Database {
     public List<Track> getAllTracks() {
         List<Track> tracks = new ArrayList<>();
         trackObjectRepository.find().project(TrackDto.class).toList().forEach(item -> tracks.add(item.getTrack()));
-        log.info("All tracks loaded from database");
+        log.info("All favourite tracks loaded from database");
         return tracks;
     }
 
@@ -61,7 +61,7 @@ public class Database {
     public List<Artist> getAllArtists() {
         List<Artist> artists = new ArrayList<>();
         artistObjectRepository.find().project(ArtistDto.class).toList().forEach(item -> artists.add(item.getArtist()));
-        log.info("All artists loaded from database");
+        log.info("All favourite artists loaded from database");
         return artists;
     }
 }
