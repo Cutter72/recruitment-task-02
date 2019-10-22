@@ -28,7 +28,7 @@
     <c:forEach items="${searchedArtists}" var="artist">
         <tr style="height: 50px">
             <td><a href="${artist.externalUrls.externalUrls.get('spotify')}" target="_blank">${artist.name}</a></td>
-            <td>ADD/REMOVE</td>
+            <td><a href="/addArtistToFavourites/${artist.id}" target="_blank">Add</a></td>
         </tr>
     </c:forEach>
 </table>

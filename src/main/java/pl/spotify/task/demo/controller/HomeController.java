@@ -31,7 +31,7 @@ public class HomeController {
         return "<a href='/searchTracks'>searchTracks</a><br><br>" +
                 "<a href='/searchArtists'>searchArtists</a><br><br>" +
                 "<a href='/myFavouriteTracks'>myFavouriteTracks</a><br><br>" +
-                "<a href='/myFavouriteTracks'>myFavouriteTracks</a>";
+                "<a href='/myFavouriteArtists'>myFavouriteArtists</a>";
     }
 
     @GetMapping("/addTrackToFavourites/{trackId}")

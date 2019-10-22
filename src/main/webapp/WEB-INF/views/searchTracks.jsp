@@ -26,12 +26,11 @@
         <th>Artist</th>
         <th>Album</th>
         <th>previewUrl</th>
-        <th>spotifyUrl</th>
         <th>Add to favourites</th>
     </tr>
     <c:forEach items="${searchedTracks}" var="track">
         <tr style="height: 50px">
-            <td>${track.name}</td>
+            <td><a href="${track.externalUrls.externalUrls.get('spotify')}" target="_blank">${track.name}</a></td>
             <td>
                 <c:forEach items="${track.artists}" var="artist">
                     ${artist.name},
@@ -48,7 +47,6 @@
                     Preview not supported.
                 </c:otherwise>
             </c:choose></td>
-            <td><a href="${track.externalUrls.externalUrls.get('spotify')}" target="_blank">Listen on Spotify</a></td>
             <td><a href="/addTrackToFavourites/${track.id}" target="_blank">Add</a></td>
         </tr>
     </c:forEach>
