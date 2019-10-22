@@ -37,7 +37,7 @@ public class HomeController {
         return "";
     }
 
-    @GetMapping("/getTrack/{trackId}")
+    @GetMapping("/saveToFavourites/{trackId}")
     @ResponseBody
     public String getTrack(@PathVariable String trackId) {
         Track track = SearchTracks.getTrack_Sync(trackId);
