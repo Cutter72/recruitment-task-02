@@ -3,10 +3,14 @@ package pl.spotify.task.demo.Model;
 import com.wrapper.spotify.model_objects.specification.Track;
 import org.apache.log4j.Logger;
 import org.dizitart.no2.Nitrite;
+import org.dizitart.no2.filters.Filters;
+import org.dizitart.no2.objects.ObjectFilter;
 import org.dizitart.no2.objects.ObjectRepository;
+import org.dizitart.no2.objects.filters.ObjectFilters;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -16,20 +20,24 @@ public class Database {
             .compressed()
             .filePath(Paths.get("src/main/resources/database.db").toAbsolutePath().toString())
             .openOrCreate("user", "password");
-    ObjectRepository<Track> trackObjectRepository= db.getRepository(Track.class);
+    ObjectRepository<TrackDto> trackObjectRepository= db.getRepository(TrackDto.class);
 
 
     public void addTrack(Track track) {
-        trackObjectRepository.insert(track);
+        TrackDto trackDto = new TrackDto(track.getId(), track);
+        trackObjectRepository.insert(trackDto);
         log.info("Track added to database");
     }
 
-    public void removeTrack(Track track) {
-        trackObjectRepository.remove(track);
+    public void removeTrack(String id) {
+        trackObjectRepository.remove(ObjectFilters.eq("id", id));
         log.info("Track removed from database");
     }
 
     public List<Track> getAllTracks() {
-    return trackObjectRepository.find().project(Track.class).toList();
+        List<Track> tracks = new ArrayList<>();
+        trackObjectRepository.find().project(TrackDto.class).toList().forEach(item -> tracks.add(item.getTrack()));
+        log.info("All track loaded from database");
+    return tracks;
     }
 }

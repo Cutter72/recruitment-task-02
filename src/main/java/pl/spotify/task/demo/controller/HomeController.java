@@ -43,8 +43,7 @@ public class HomeController {
 
     @GetMapping("/removeTrackFromFavourites/{trackId}")
     public String removeTrackToFavourites(@PathVariable String trackId) {
-        Track track = SearchTracks.getTrack_Sync(trackId);
-        database.removeTrack(track);
+        database.removeTrack(trackId);
         return "redirect:/myFavouriteTracks";
     }
 
