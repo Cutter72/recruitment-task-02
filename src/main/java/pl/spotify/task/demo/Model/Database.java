@@ -25,37 +25,37 @@ public class Database {
             .compressed()
             .filePath(Paths.get("src/main/resources/database.db").toAbsolutePath().toString())
             .openOrCreate("user", "password");
-    private ObjectRepository<TrackDto> trackObjectRepository= db.getRepository(TrackDto.class);
-    private ObjectRepository<ArtistDto> artistObjectRepository= db.getRepository(ArtistDto.class);
+    private ObjectRepository<TrackDto> trackObjectRepository = db.getRepository(TrackDto.class);
+    private ObjectRepository<ArtistDto> artistObjectRepository = db.getRepository(ArtistDto.class);
 
 
     public void addTrack(Track track) {
         TrackDto trackDto = new TrackDto(track.getId(), track);
         trackObjectRepository.insert(trackDto);
-        log.info("Track added to database");
+        log.info("Track with id: '" + track.getId() + "' added to database");
     }
 
     public void removeTrack(String id) {
         trackObjectRepository.remove(ObjectFilters.eq("id", id));
-        log.info("Track removed from database");
+        log.info("Track with id: '" + id + "' removed from database");
     }
 
     public List<Track> getAllTracks() {
         List<Track> tracks = new ArrayList<>();
         trackObjectRepository.find().project(TrackDto.class).toList().forEach(item -> tracks.add(item.getTrack()));
         log.info("All tracks loaded from database");
-    return tracks;
+        return tracks;
     }
 
     public void addArtist(Artist artist) {
         ArtistDto artistDto = new ArtistDto(artist.getId(), artist);
         artistObjectRepository.insert(artistDto);
-        log.info("Artist added to database");
+        log.info("Artist with id: '" + artist.getId() + "' added to database");
     }
 
     public void removeArtist(String id) {
         artistObjectRepository.remove(ObjectFilters.eq("id", id));
-        log.info("Artist removed from database");
+        log.info("Artist with id: '" + id + "' removed from database");
     }
 
     public List<Artist> getAllArtists() {

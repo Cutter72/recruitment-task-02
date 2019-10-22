@@ -40,7 +40,7 @@ public class SearchArtists {
                 .build();
         try {
             Artist artist = getArtistRequest.execute();
-            log.info("Artist with id = " + id + " loaded. Artist name: " +artist.getName());
+            log.info("Artist with id = " + id + " loaded from Spotify API.");
             return artist;
         } catch (IOException | SpotifyWebApiException e) {
             log.error("NullPointerException while getting single Artist with id = " + id);

@@ -1,3 +1,17 @@
 2019-10-22 22:47:29 INFO  HomeController:30 - Homepage entered
 2019-10-22 22:55:11 INFO  HomeController:30 - Homepage entered
 2019-10-22 22:55:39 INFO  Database:46 - All tracks loaded from database
+2019-10-22 23:12:03 INFO  HomeController:30 - Homepage entered
+2019-10-22 23:12:14 INFO  Database:46 - All tracks loaded from database
+2019-10-22 23:12:23 INFO  HomeController:78 - Search for tracks page entered.
+2019-10-22 23:12:29 INFO  HomeController:88 - Search for tracks with phrase: 'mia'.
+2019-10-22 23:12:29 INFO  HomeController:95 - Found 80097 tracks.
+2019-10-22 23:12:29 INFO  HomeController:113 - Enter tracks result page: 1
+2019-10-22 23:12:33 INFO  SearchTracks:43 - Track with id = 1kusepF3AacIEtUTYrw4GV loaded. Track title: Paper Planes, Artist: M.I.A.
+2019-10-22 23:12:33 INFO  Database:35 - Track added to database
+2019-10-22 23:12:33 INFO  Database:46 - All tracks loaded from database
+2019-10-22 23:15:01 INFO  HomeController:52 - /myFavouriteTracks page entered
+2019-10-22 23:15:01 INFO  Database:46 - All tracks loaded from database
+2019-10-22 23:15:08 INFO  Database:40 - Track removed from database
+2019-10-22 23:15:08 INFO  HomeController:52 - /myFavouriteTracks page entered
+2019-10-22 23:15:08 INFO  Database:46 - All tracks loaded from database
