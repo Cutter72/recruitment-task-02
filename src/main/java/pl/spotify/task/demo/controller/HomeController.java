@@ -28,26 +28,30 @@ public class HomeController {
     @ResponseBody
     public String home() {
         log.info("Homepage entered");
-        return "<a href='/searchTracks'>searchTracks</a><br><br><a href='/searchArtists'>searchArtists</a>";
+        return "<a href='/searchTracks'>searchTracks</a><br><br>" +
+                "<a href='/searchArtists'>searchArtists</a><br><br>" +
+                "<a href='/myFavouriteTracks'>myFavouriteTracks</a><br><br>" +
+                "<a href='/myFavouriteTracks'>myFavouriteTracks</a>";
     }
 
-    @GetMapping("/db")
-    public String database() {
-        log.info("database entered");
-
-        return "";
-    }
-
-    @GetMapping("/saveToFavourites/{trackId}")
-    @ResponseBody
-    public String getTrack(@PathVariable String trackId) {
+    @GetMapping("/addTrackToFavourites/{trackId}")
+    public String addTrackToFavourites(@PathVariable String trackId) {
         Track track = SearchTracks.getTrack_Sync(trackId);
         database.addTrack(track);
-        for (Track trk : database.getAllTracks()) {
-            log.info("Title: " + trk.getName());
-            log.info("Artist: " + trk.getArtists()[0].getName());
-        }
-        return "success";
+        return "redirect:/myFavouriteTracks";
+    }
+
+    @GetMapping("/removeTrackFromFavourites/{trackId}")
+    public String removeTrackToFavourites(@PathVariable String trackId) {
+        Track track = SearchTracks.getTrack_Sync(trackId);
+        database.removeTrack(track);
+        return "redirect:/myFavouriteTracks";
+    }
+
+    @GetMapping("/myFavouriteTracks")
+    public String myFavouriteTracks(Model model) {
+        model.addAttribute("tracks", database.getAllTracks());
+        return "myFavouriteTracks";
     }
 
     @GetMapping("/searchTracks")

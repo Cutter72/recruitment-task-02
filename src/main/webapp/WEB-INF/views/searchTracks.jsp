@@ -49,7 +49,7 @@
                 </c:otherwise>
             </c:choose></td>
             <td><a href="${track.externalUrls.externalUrls.get('spotify')}" target="_blank">Listen on Spotify</a></td>
-            <td><a href="/saveToFavourites/${track.id}" target="_blank">Add/remove</a></td>
+            <td><a href="/addTrackToFavourites/${track.id}" target="_blank">Add</a></td>
         </tr>
     </c:forEach>
 </table>
