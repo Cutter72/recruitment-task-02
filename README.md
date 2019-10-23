@@ -18,7 +18,7 @@ you need to set the JAVA_HOME variable with your jdk folder directory.
 Example:
 * `set JAVA_HOME=C:\Program Files\Java\jdk1.8.0_181`
 
-### Technologie/Technologies:
+### Technologies:
 * [spotify-web-api-java](https://github.com/thelinmichael/spotify-web-api-java) 
 * [nitrite-database](https://github.com/dizitart/nitrite-database)
 * Spring Boot
