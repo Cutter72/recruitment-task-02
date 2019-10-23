@@ -1,5 +1,5 @@
 # recruitment-task-02
-
+App is using Spotify API to search, add to favourite list/remove from favourite list tracks and artists. Logging provided. Embedded NoSQL database.
 ## Prerequisites
 You must have installed on your system:
 * Java JDK8
